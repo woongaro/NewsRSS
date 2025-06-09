@@ -1,6 +1,6 @@
 import feedparser
 
-query = "부정선거"
+query = "ai"
 feed_url = f"https://news.google.com/rss/search?q={query}&hl=ko&gl=KR&ceid=KR:ko"
 feed = feedparser.parse(feed_url)
 

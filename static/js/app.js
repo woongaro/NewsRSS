@@ -91,21 +91,24 @@ function createNewsCard(news, index) {
     const animationDelay = index * 0.1;
     
     // 이미지 HTML 생성
+    const safeImageUrl = news.image ? escapeHtml(news.image) : '';
     const imageHtml = news.image ? `
         <div class="news-image-container">
-            <img src="${escapeHtml(news.image)}" 
-                 alt="${escapeHtml(news.title)}" 
+            <img src="${safeImageUrl}"
+                 alt="${escapeHtml(news.title)}"
                  class="news-image"
                  onerror="this.style.display='none';"
                  loading="lazy">
         </div>
     ` : '';
-    
+
+    const safeLink = news.link ? escapeHtml(news.link) : '#';
+
     col.innerHTML = `
         <div class="news-card" style="animation-delay: ${animationDelay}s">
             ${imageHtml}
             <div class="news-content">
-                <a href="${news.link}" target="_blank" rel="noopener" class="news-title">
+                <a href="${safeLink}" target="_blank" rel="noopener" class="news-title">
                     ${escapeHtml(news.title)}
                 </a>
                 <div class="news-meta">

@@ -127,21 +127,42 @@ function formatDate(dateString) {
     
     try {
         const date = new Date(dateString);
+
+        if (Number.isNaN(date.getTime())) {
+            return '날짜 정보 없음';
+        }
+
         const now = new Date();
-        const diffTime = Math.abs(now - date);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
+        const diffTime = Math.abs(now.getTime() - date.getTime());
+        const diffMinutes = Math.floor(diffTime / (1000 * 60));
+        const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) {
+            if (diffHours > 0) {
+                return `${diffHours}시간 전`;
+            }
+
+            if (diffMinutes > 0) {
+                return `${diffMinutes}분 전`;
+            }
+
+            return '방금 전';
+        }
+
         if (diffDays === 1) {
             return '하루 전';
-        } else if (diffDays < 7) {
-            return `${diffDays}일 전`;
-        } else {
-            return date.toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
         }
+
+        if (diffDays < 7) {
+            return `${diffDays}일 전`;
+        }
+
+        return date.toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
     } catch (error) {
         return '날짜 정보 없음';
     }
